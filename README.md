@@ -1,18 +1,18 @@
-# Amplifier × AI Cage (“Spell Platform”) 開発環境
+# Amplifier × AI Cage 統合開発テンプレート
 
 このリポジトリは、Microsoft Amplifier の AI 開発環境と  
-`NishizukaKoichi/ai-cage-driven-dev` が提供する **Claude Code × Codex CLI** の二重運用フレームを統合したもの。  
-Amplifier の豊富なサブエージェントと知識管理を土台に、Spell Platform 向けの拘束条件つき開発ループを構築する。
+`ai-cage-driven-dev` が提供する **Claude Code（総監督）× Codex CLI（実装担当）** の二重体制を融合し、  
+どんなソフトウェアでも「計画 → 実装 → テスト → レビュー」を安全に自動運転できるよう設計されたテンプレートです。
 
 ---
 
 ## 主な構成要素
 
 - `docs/amplifier_core/` – 元 Amplifier のエージェント規約や README を保管
-- `AGENTS.md` – Claude / Codex 双方の起動プロンプトと統合運用ルール
+- `AGENTS.md` – Claude / Codex 両エージェント向けの起動プロンプトと運用ルール
 - `PLANS.md` – 現行スプリントの目的・非目的・意思決定ログ
-- `docs/spec/Spell-Platform_v1.4.0.md` – Spell Platform 仕様書（一次参照）
-- `frontend/`, `backend/` – Spell Platform 向け UI / API 実装
+- `docs/spec/PROJECT_SPEC.md` – プロジェクトの一次仕様（※名称はプロジェクトに合わせて差し替え可）
+- `frontend/`, `backend/` – フロントエンド／バックエンド向けの雛形。不要なら削除・置換してよい
 - `amplifier/`, `tools/`, `.ai/` など – Amplifier のコア機能・サブエージェント・知識抽出パイプライン
 - `scripts/` – UI スナップ生成や review 集約など ai-cage 由来の自動化スクリプト
 
@@ -36,17 +36,17 @@ make install        # Amplifier 依存 + frontend/backend 依存をまとめて�
 
 ## 主要コマンド
 
-Amplifier 由来のコマンドに加え、Spell Platform 向けのショートカットが組み込まれている。
+Amplifier 由来のコマンドに加え、AI Cage 由来のショートカットが組み込まれている。
 
 | コマンド | 内容 |
 | --- | --- |
 | `make install` | Amplifier の Python 依存と、`frontend`/`backend` の依存をまとめてセットアップ |
-| `make test` | Amplifier コアの pytest + Spell Platform の FE/BE テストを連続実行 |
+| `make test` | Amplifier コアの pytest と、フロントエンド／バックエンドテストを連続実行 |
 | `make ui:snap` | `scripts/gen_ui_previews.py` とフロントエンドのスナップテストを実行し、差分レポートを生成 |
-| `make review` | lint / typecheck / 依存監査 / セキュリティチェックをまとめて実行（FE/BE 双方） |
-| `make cage:fe-*` / `make cage:be-*` | Spell Platform 向けに分割された細粒度コマンド（詳細は `Makefile` 参照） |
+| `make review` | lint / typecheck / 依存監査 / セキュリティチェックをまとめて実行 |
+| `make cage:fe-*` / `make cage:be-*` | フロント/バックエンド個別のショートカット（詳細は `Makefile` 参照） |
 | `make knowledge-update` | Amplifier の知識抽出パイプラインを実行 |
-| `make worktree <name>` | Amplifier の並列ワークツリーを作成（Spell Platform データディレクトリ共有を推奨） |
+| `make worktree <name>` | Amplifier の並列ワークツリーを作成（`.env` で共有データディレクトリを設定可能） |
 
 ---
 
@@ -66,7 +66,7 @@ Amplifier 由来のコマンドに加え、Spell Platform 向けのショート�
 - Amplifier Vision: `AMPLIFIER_VISION.md`
 - Amplifier の元 README: `docs/amplifier_core/README_CORE.md`
 - Claude 専用哲学/サブエージェント一覧: `docs/amplifier_core/AGENTS_CORE.md`
-- Spell Platform 仕様書: `docs/spec/Spell-Platform_v1.4.0.md`
+- プロジェクト仕様の雛形: `docs/spec/PROJECT_SPEC.md`（必要に応じて置き換え）
 - セッションの意思決定ログ: `PLANS.md`
 - Chrome DevTools MCP 連携や UI スナップ関連: `scripts/`
 

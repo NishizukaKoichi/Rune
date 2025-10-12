@@ -11,7 +11,7 @@ define list_projects
 	@echo ""
 endef
 
-# Spell Platform / AI Cage integration directories
+# AI Cage integration directories
 CAGE_FRONTEND_DIR := frontend
 CAGE_BACKEND_DIR := backend
 
@@ -160,9 +160,9 @@ install: ## Install all dependencies
 		exit 1; \
 	}
 	@echo ""
-	@echo "Installing Spell Platform frontend dependencies..."
+	@echo "Installing frontend dependencies..."
 	@$(MAKE) cage-fe-install
-	@echo "Installing Spell Platform backend dependencies..."
+	@echo "Installing backend dependencies..."
 	@$(MAKE) cage-be-install
 	@echo ""
 	@echo "✅ All dependencies installed!"
@@ -196,12 +196,12 @@ check: ## Format, lint, and type-check all code
 	@python tools/check_stubs.py
 	@echo "All checks passed!"
 
-test: ## Run all tests (Amplifier core + Spell Platform)
+test: ## Run all tests (Amplifier core + project stacks)
 	@echo "[Amplifier] Running pytest suite..."
 	uv run pytest
-	@echo "[Spell Platform] Running frontend tests..."
+	@echo "[AI Cage] Running frontend tests..."
 	@$(MAKE) cage-fe-test
-	@echo "[Spell Platform] Running backend tests..."
+	@echo "[AI Cage] Running backend tests..."
 	@$(MAKE) cage-be-test
 
 smoke-test: ## Run quick smoke tests to verify basic functionality
@@ -680,7 +680,7 @@ dot-to-mermaid: ## Convert DOT files to Mermaid format. Usage: make dot-to-merma
 	echo "Converting DOT files to Mermaid format..."; \
 	uv run python -m ai_working.dot_to_mermaid.cli "$(INPUT)" --session-file "$$SESSION_DIR/session.json"
 
-# Spell Platform / AI Cage helper targets
+# AI Cage helper targets
 .PHONY: cage-fe-install cage-fe-test cage-fe-snap cage-fe-snap-update cage-fe-lint cage-fe-type cage-fe-build
 .PHONY: cage-be-install cage-be-test cage-be-lint cage-be-sec
 .PHONY: format lint type ui:snap review e2e ci
@@ -723,44 +723,44 @@ cage-be-sec:
 format: ## Format codebase (Python + frontend)
 	@echo "[Amplifier] Formatting Python sources with ruff..."
 	@VIRTUAL_ENV= uv run ruff format .
-	@echo "[Spell Platform] Formatting frontend and backend..."
+	@echo "[AI Cage] Formatting frontend and backend..."
 	cd $(CAGE_FRONTEND_DIR) && pnpm format
 
 lint: ## Lint codebase (Python + frontend)
 	@echo "[Amplifier] Linting with ruff..."
 	@VIRTUAL_ENV= uv run ruff check .
-	@echo "[Spell Platform] Frontend lint..."
+	@echo "[AI Cage] Frontend lint..."
 	$(MAKE) cage-fe-lint
-	@echo "[Spell Platform] Backend lint..."
+	@echo "[AI Cage] Backend lint..."
 	$(MAKE) cage-be-lint
 
 type: ## Type-check frontend and backend
 	@echo "[Amplifier] Running pyright..."
 	@VIRTUAL_ENV= uv run pyright
-	@echo "[Spell Platform] Frontend typecheck..."
+	@echo "[AI Cage] Frontend typecheck..."
 	$(MAKE) cage-fe-type
 
-ui:snap: ## Run Spell Platform UI snapshot workflow
-	@echo "[Spell Platform] Generating UI previews..."
+ui:snap: ## Run project UI snapshot workflow
+	@echo "[AI Cage] Generating UI previews..."
 	uv run python scripts/gen_ui_previews.py
-	@echo "[Spell Platform] Running frontend snapshot tests..."
+	@echo "[AI Cage] Running frontend snapshot tests..."
 	$(MAKE) cage-fe-snap
-	@echo "[Spell Platform] Summarising snapshot diff..."
+	@echo "[AI Cage] Summarising snapshot diff..."
 	uv run python scripts/snapshot_diff_report.py
 
-review: ## Run aggregated review checks for Spell Platform and Amplifier
+review: ## Run aggregated review checks for Amplifier + project stacks
 	@echo "[Amplifier] Running check target..."
 	$(MAKE) check
-	@echo "[Spell Platform] Auditing dependencies..."
+	@echo "[AI Cage] Auditing dependencies..."
 	cd $(CAGE_FRONTEND_DIR) && pnpm depcheck
 	cd $(CAGE_FRONTEND_DIR) && pnpm audit
-	@echo "[Spell Platform] Linting / security..."
+	@echo "[AI Cage] Linting / security..."
 	$(MAKE) cage-fe-lint
 	$(MAKE) cage-fe-type
 	$(MAKE) cage-be-lint
 	$(MAKE) cage-be-sec
 
-e2e: ## Run Spell Platform E2E tests (Playwright placeholder)
+e2e: ## Run E2E tests (Playwright placeholder)
 	cd $(CAGE_FRONTEND_DIR) && pnpm playwright test
 
 ci: ## Run install → test → review for full stack
