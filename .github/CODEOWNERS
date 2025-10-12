@@ -1,0 +1,10 @@
+# Default owner for everything
+* @NishizukaKoichi
+
+# Workflow files require special attention
+/.github/workflows/ @NishizukaKoichi
+
+# Core documents
+/AGENTS.md @NishizukaKoichi
+/PLANS.md @NishizukaKoichi
+/Makefile @NishizukaKoichi

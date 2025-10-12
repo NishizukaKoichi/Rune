@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install pnpm
+        run: npm i -g pnpm@9
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-${{ runner.os }}-
+
+      - name: Install deps
+        run: make install
+
+      - name: Unit Tests
+        run: make test
+
+      - name: UI Snapshots
+        run: make ui-snap
+
+      - name: Review Gate
+        run: make review
+
+      - name: Risk Matrix (informational)
+        run: python3 scripts/risk_matrix.py
+
+      - name: Plans Log (CI)
+        run: python3 scripts/write_plans_log.py "CI green on $GITHUB_SHA"

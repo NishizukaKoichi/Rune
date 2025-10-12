@@ -1,0 +1,54 @@
+name: Notify on Failure
+
+on:
+  workflow_run:
+    workflows: ["CI", "Guard - Makefile & Workflow Integrity", "CodeQL Security Analysis"]
+    types: [completed]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Send Slack notification
+        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{
+              "text": "❌ *Workflow Failed*",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "❌ *Workflow Failed: ${{ github.event.workflow_run.name }}*\n*Repository:* ${{ github.repository }}\n*Branch:* ${{ github.event.workflow_run.head_branch }}\n*Commit:* <${{ github.event.workflow_run.html_url }}|View Run>"
+                  }
+                }
+              ]
+            }' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Send Discord notification
+        if: ${{ secrets.DISCORD_WEBHOOK_URL != '' }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{
+              "content": "❌ **Workflow Failed**",
+              "embeds": [{
+                "title": "${{ github.event.workflow_run.name }}",
+                "description": "Repository: ${{ github.repository }}\nBranch: ${{ github.event.workflow_run.head_branch }}",
+                "url": "${{ github.event.workflow_run.html_url }}",
+                "color": 15158332
+              }]
+            }' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Notification skipped
+        if: ${{ secrets.SLACK_WEBHOOK_URL == '' && secrets.DISCORD_WEBHOOK_URL == '' }}
+        run: |
+          echo "ℹ️ No webhook URLs configured. To enable notifications:"
+          echo "1. Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
+          echo "2. Add SLACK_WEBHOOK_URL or DISCORD_WEBHOOK_URL"
+          echo ""
+          echo "For Slack: https://api.slack.com/messaging/webhooks"
+          echo "For Discord: Server Settings > Integrations > Webhooks"

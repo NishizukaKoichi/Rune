@@ -1,0 +1,43 @@
+name: Guard - Makefile & Workflow Integrity
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+      - "Makefile"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/**"
+      - "Makefile"
+
+jobs:
+  guard-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for forbidden pattern 'ui:snap'
+        run: |
+          # Exclude guard.yml itself to avoid self-detection
+          if grep -R "ui:snap" .github/workflows Makefile | grep -v "guard.yml"; then
+            echo "::error ::Found forbidden pattern 'ui:snap' - use 'ui-snap' instead"
+            exit 1
+          fi
+          echo "✅ No 'ui:snap' typo found"
+
+      - name: Check Makefile target naming convention
+        run: |
+          # Extract target names and check they follow [a-z0-9-]+ pattern
+          # Exclude special targets like .PHONY, .DEFAULT_GOAL, etc.
+          if grep -E '^\s*[^#\s]+:' Makefile | grep -v '^\s*\.' | grep -E '[^a-z0-9_\-:#\s]'; then
+            echo "::error ::Found Makefile targets with invalid characters. Use only [a-z0-9-]+"
+            exit 1
+          fi
+          # Check for colon in target names (pattern rule indicator)
+          if grep -E '^\s*[a-z0-9_-]+:[a-z0-9_-]+:' Makefile; then
+            echo "::error ::Found targets with multiple colons. Use hyphens instead (e.g., 'fe-test' not 'fe:test')"
+            exit 1
+          fi
+          echo "✅ Makefile naming convention verified"
