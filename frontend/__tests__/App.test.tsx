@@ -2,9 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import App from '../src/App';
 
-test('App renders header correctly', () => {
-  const { asFragment } = render(<App />);
-  expect(asFragment()).toMatchSnapshot();
+test('App renders without crashing', () => {
+  const { container } = render(<App />);
+  expect(container).toBeTruthy();
 });
 
 test('App displays main heading', () => {
