@@ -712,7 +712,7 @@ cage-be-install:
 	uv run pip install -e ./backend
 
 cage-be-test:
-	uv run pytest -q backend
+	cd backend && uv run pytest -q
 
 cage-be-lint:
 	uv run ruff check backend
