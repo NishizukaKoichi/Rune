@@ -753,7 +753,7 @@ review: ## Run aggregated review checks for Amplifier + project stacks
 	$(MAKE) check
 	@echo "[AI Cage] Auditing dependencies..."
 	cd $(CAGE_FRONTEND_DIR) && pnpm depcheck
-	cd $(CAGE_FRONTEND_DIR) && pnpm audit
+	cd $(CAGE_FRONTEND_DIR) && pnpm audit --audit-level=high
 	@echo "[AI Cage] Linting / security..."
 	$(MAKE) cage-fe-lint
 	$(MAKE) cage-fe-type
