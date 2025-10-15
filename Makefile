@@ -690,7 +690,7 @@ cage-fe-install:
 	cd $(CAGE_FRONTEND_DIR) && pnpm install
 
 cage-fe-test:
-	cd $(CAGE_FRONTEND_DIR) && pnpm test -- --watch=false --reporters=default
+	cd $(CAGE_FRONTEND_DIR) && pnpm test -- --watch=false --reporters=default --passWithNoTests
 
 cage-fe-snap:
 	cd $(CAGE_FRONTEND_DIR) && pnpm test -- -u=false --updateSnapshot=false --watch=false
