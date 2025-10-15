@@ -1,15 +1,14 @@
-# AGENTS.md — Amplifier × AI Cage 統合運用ガイド
+# AGENTS.md — Rune 運用ガイド
 
-このリポジトリは **Microsoft Amplifier** の多層エージェント環境と  
-`ai-cage-driven-dev` の **Claude Code（総監督） × Codex CLI（実装担当）** の二重体制を組み合わせ、  
+このリポジトリは **Claude Code（総監督） × Codex CLI（実装担当）** の二重体制により、
 あらゆるソフトウェア開発を安全に自動化するための「檻」を定義する。
 
 ---
 
 ## 1. 役割と優先順位
 
-- **Claude Code（総監督 / DevTools / レビュー統括）**  
-  - chrome-devtools-mcp などのツールを用いて UI/クラウド環境を監視しつつ、Amplifier のサブエージェントを采配する。  
+- **Claude Code（総監督 / DevTools / レビュー統括）**
+  - chrome-devtools-mcp などのツールを用いて UI/クラウド環境を監視しつつ、サブエージェントを采配する。
   - `PLANS.md`・仕様書・本ファイルを遵守し、Codex に根拠付きで作業を割り振る。
 
 - **Codex CLI（実装担当 / テスト駆動）**  
@@ -147,8 +146,8 @@ HITL（人間の手）は必ず尊重する。
 
 ## 5. 追加リファレンス
 
-- Amplifier 固有の哲学・サブエージェント一覧: `docs/amplifier_core/AGENTS_CORE.md`
-- Amplifier Vision: `AMPLIFIER_VISION.md`
+- コア哲学・サブエージェント一覧: `docs/amplifier_core/AGENTS_CORE.md`
+- Vision: `AMPLIFIER_VISION.md`
 - Claude / Codex 用ユーティリティとシナリオ: `scenarios/`
 - プロジェクト仕様: `docs/spec/PROJECT_SPEC.md`（名称は自由。複数の場合は PLANS.md で参照順序を定義）
 - 進行中の計画・意思決定ログ: `PLANS.md`

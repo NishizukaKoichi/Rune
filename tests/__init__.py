@@ -1,1 +1,1 @@
-"""Test package for Amplifier."""
+"""Test package for Rune."""

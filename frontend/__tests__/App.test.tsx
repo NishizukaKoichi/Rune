@@ -8,10 +8,10 @@ test('App renders without crashing', () => {
 
 test('App displays main heading', () => {
   const { getByText } = render(<App />);
-  expect(getByText('AI Cage-Driven Development')).toBeInTheDocument();
+  expect(getByText('Rune')).toBeInTheDocument();
 });
 
 test('App displays subtitle', () => {
   const { getByText } = render(<App />);
-  expect(getByText(/Claude Code × Codex CLI/)).toBeInTheDocument();
+  expect(getByText(/Claude Code × Codex CLI による自動開発環境/)).toBeInTheDocument();
 });

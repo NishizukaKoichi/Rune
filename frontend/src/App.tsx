@@ -4,8 +4,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>AI Cage-Driven Development</h1>
-        <p>Claude Code × Codex CLI の檻駆動ループ</p>
+        <h1>Rune</h1>
+        <p>Claude Code × Codex CLI による自動開発環境</p>
       </header>
       <main>
         <section>

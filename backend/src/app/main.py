@@ -1,12 +1,12 @@
 """
-Main application entry point for the AI Cage-Driven Development backend.
+Main application entry point for the Rune backend.
 """
 from fastapi import FastAPI
 from pydantic import BaseModel
 
 app = FastAPI(
-    title="AI Cage-Driven Development API",
-    description="Backend API for the cage-driven development system",
+    title="Rune API",
+    description="Backend API for the Rune development system",
     version="1.0.0"
 )
 
@@ -27,7 +27,7 @@ class ItemResponse(BaseModel):
 @app.get("/")
 async def root() -> dict[str, str]:
     """Root endpoint."""
-    return {"message": "AI Cage-Driven Development API"}
+    return {"message": "Rune API"}
 
 
 @app.get("/health", response_model=HealthResponse)

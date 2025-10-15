@@ -1,8 +1,8 @@
 {
-  "name": "ai-cage-driven-dev",
+  "name": "rune",
   "version": "1.0.0",
   "private": true,
-  "description": "Claude Code × Codex CLI の檻（テスト&ドキュメント）駆動開発テンプレート",
+  "description": "Rune - Claude Code × Codex CLI による自動開発環境",
   "workspaces": [
     "frontend"
   ],
