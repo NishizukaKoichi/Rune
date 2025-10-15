@@ -39,5 +39,13 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
     "@playwright/test": "^1.40.1"
+  },
+  "depcheck": {
+    "ignores": [
+      "depcheck",
+      "identity-obj-proxy",
+      "jest-environment-jsdom",
+      "ts-node"
+    ]
   }
 }
