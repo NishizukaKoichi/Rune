@@ -198,7 +198,7 @@ check: ## Format, lint, and type-check all code
 
 test: ## Run all tests (Amplifier core + project stacks)
 	@echo "[Amplifier] Running pytest suite..."
-	uv run pytest
+	uv run pytest tests/ amplifier/
 	@echo "[AI Cage] Running frontend tests..."
 	@$(MAKE) cage-fe-test
 	@echo "[AI Cage] Running backend tests..."
