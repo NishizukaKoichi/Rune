@@ -21,8 +21,12 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def ensure_dev():
-    # 実際はサーバ起動/待機の健全化が必要
-    pass
+    """Placeholder for ensuring dev server is running.
+
+    In production, this would start/verify the dev server is healthy.
+    """
+    # TODO: Implement dev server health check
+    return True
 
 
 def capture(route):
