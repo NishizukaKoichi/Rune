@@ -11,7 +11,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - name: Send Slack notification
-        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+        if: secrets.SLACK_WEBHOOK_URL != ''
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data '{
@@ -29,7 +29,7 @@ jobs:
             ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Send Discord notification
-        if: ${{ secrets.DISCORD_WEBHOOK_URL != '' }}
+        if: secrets.DISCORD_WEBHOOK_URL != ''
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data '{
@@ -44,7 +44,7 @@ jobs:
             ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notification skipped
-        if: ${{ secrets.SLACK_WEBHOOK_URL == '' && secrets.DISCORD_WEBHOOK_URL == '' }}
+        if: secrets.SLACK_WEBHOOK_URL == '' && secrets.DISCORD_WEBHOOK_URL == ''
         run: |
           echo "ℹ️ No webhook URLs configured. To enable notifications:"
           echo "1. Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"

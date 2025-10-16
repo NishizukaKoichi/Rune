@@ -32,14 +32,14 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Install pnpm
-        run: |
-          npm i -g pnpm@9
-          pnpm config set global-bin-dir /usr/local/bin
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Cache pnpm store
         uses: actions/cache@v4
         with:
-          path: ~/.pnpm-store
+          path: ~/.local/share/pnpm/store
           key: pnpm-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             pnpm-${{ runner.os }}-
