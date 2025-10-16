@@ -16,7 +16,7 @@ def test_root_endpoint(client):
     """Test the root endpoint."""
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "AI Cage-Driven Development API"}
+    assert response.json() == {"message": "Rune API"}
 
 
 def test_health_check(client):
